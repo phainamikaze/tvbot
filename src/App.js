@@ -1,25 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { Layout, Menu } from "antd";
+import { useNavigate } from "react-router-dom";
+import MainRoute from "./route";
 
-function App() {
+const { Content } = Layout;
+const items = [
+  {
+    label: "User config",
+    key: "userconfig",
+  },
+  {
+    label: "error",
+    key: "/error",
+  },
+  {
+    label: "Setting",
+    key: "setting",
+    disabled: true,
+  },
+];
+
+const App = () => {
+  const [current, setCurrent] = useState("/");
+  const navigate = useNavigate();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout>
+      <Content
+        style={{
+          height: "100vh",
+        }}
+      >
+        <Menu
+          onClick={(e) => {
+            console.log("click ", e);
+            setCurrent(e);
+            navigate(e.key);
+          }}
+          selectedKeys={[current]}
+          mode="horizontal"
+          items={items}
+        />
+        <MainRoute />
+      </Content>
+    </Layout>
   );
-}
-
+};
 export default App;
