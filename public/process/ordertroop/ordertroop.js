@@ -1,6 +1,5 @@
-const { exec } = require("child_process");
 // const cybridge = require("./cy-bridge");
-const orderTroop = async (db) => {
+const ordertroop = async (db) => {
   // get the troops config
   const troops = await new Promise((resolve, reject) => {
     db.all("SELECT * FROM q_ordertroop", [], (err, rows) => {
@@ -26,4 +25,4 @@ const orderTroop = async (db) => {
   //   });
   // }
 };
-module.exports = orderTroop;
+module.exports = ordertroop;

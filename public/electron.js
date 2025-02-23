@@ -4,7 +4,7 @@ const isDev = process.env.NODE_ENV !== "production";
 
 const sqlite3 = require("sqlite3");
 
-const ordertroop = require("./components/ordertroop");
+const ordertroop = require("./process/ordertroop/main.js");
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 800,
@@ -46,39 +46,32 @@ database.serialize(() => {
     );`);
 
   database.run(`
-    CREATE TABLE IF NOT EXISTS q_ordertroop (
+    CREATE TABLE IF NOT EXISTS taskqueue (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
+      min INTEGER NULL,
+      max INTEGER NULL,
       enabled INTEGER NOT NULL, -- 1 ใช้งาน 0 ไม่ใช้งาน
       sort INTEGER NOT NULL, -- เรียง
-      newdid  VERCHAR(255) NOT NULL, -- หมู่บ้าน
-      gid INTEGER NOT NULL, -- 20 โรงม้า  19 ค่าย 21 ห้องเครื่อง
-      tid INTEGER NOT NULL, -- t1 t2 t3 t4 t5 t6 t7 t8
-      amount INTEGER NOT NULL -- จำนวน
-    );
-    
-    CREATE TABLE IF NOT EXISTS tasks (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      interval INTEGER NOT NULL,  -- หน่วยเป็นวินาที
-      script TEXT NOT NULL
+      ptype VERCHAR(255) NOT NULL, -- ordertroop, build1, build2
+      params TEXT
     );
   `);
 });
 
 const intervalConfig = [
   {
-    key: "ordertroop",
+    id: 1,
     min: 50000,
     max: 100000,
-  },
-  {
-    key: "task2",
-    min: 300000,
-    max: 600000,
-  },
-  {
-    key: "task3",
-    min: 500000,
-    max: 5500000,
+    enabled: true,
+    sort: 1,
+    ptype: "ordertroop",
+    params: JSON.stringify({
+      newdid: "1213123",
+      gid: "20",
+      troop: "t1",
+      amount: "10",
+    }),
   },
 ];
 // ====================================
@@ -115,9 +108,9 @@ const randomIntervalEachQueue = async (e) => {
   }
 };
 setInterval(async () => {
-  for (let el of intervalConfig) {
-    await randomIntervalEachQueue(el);
-  }
+  // for (let el of intervalConfig) {
+  //   await randomIntervalEachQueue(el);
+  // }
 }, 1000);
 // random interval
 // ====================================
