@@ -1,4 +1,5 @@
-// const ordertroop = require("./process/ordertroop/main.js");
+const ordertroop = require("./process/ordertroop/main.js");
+
 const taskqueue = async (db, tasks) => {
   for (const task of tasks) {
     if (task.lastrun + task.interval < Date.now()) {
@@ -20,8 +21,9 @@ const taskqueue = async (db, tasks) => {
 const runtask = async (db, task) => {
   switch (task.type) {
     case "ordertroop":
-      // await ordertroop(db, task);
       console.log("run ordertroop");
+      await ordertroop(task);
+
       break;
     default:
       break;
