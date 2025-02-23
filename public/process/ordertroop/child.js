@@ -1,8 +1,4 @@
-console.log("ExecPath", process.execPath);
-
-process.on("message", (m) => {
-  console.log("Got message:", m);
-  setTimeout(() => {
-    process.send("from process.execPath");
-  }, 4000);
+process.on("message", (e) => {
+  console.log(`Message from parent: ${e}`);
+  process.send({ data: "Hello from child!" });
 });

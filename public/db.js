@@ -16,7 +16,7 @@ database.serialize(() => {
 
   database.run(`
     CREATE TABLE IF NOT EXISTS taskqueue (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id VERCHAR(255) PRIMARY KEY,
       min INTEGER NULL,
       max INTEGER NULL,
       interval INTEGER NULL,
@@ -27,9 +27,9 @@ database.serialize(() => {
       params TEXT
     );
   `);
-  database.run(
-    `INSERT INTO "taskqueue" ("id", "min", "max", "interval", "lastrun", "enabled", "sort", "ptype", "params") VALUES ('1', '5000', '10000', '0', '0', '1', '1', 'oridertroop', '{"newdid":"1213123","gid":"20","troop":"t1","amount":"10"}');`
-  );
+  // database.run(
+  //   `INSERT INTO "taskqueue" ("id", "min", "max", "interval", "lastrun", "enabled", "sort", "ptype", "params") VALUES ('1', '5000', '10000', '0', '0', '1', '1', 'ordertroop', '{"newdid":"1213123","gid":"20","troop":"t1","amount":"10"}');`
+  // );
 });
 
 module.exports = database;

@@ -1,16 +1,24 @@
-const { utilityProcess } = require("electron");
+const { fork } = require("child_process");
 const path = require("path");
+
+// const { port1 } = new MessageChannelMain();
+
 const main = async (task) => {
   return new Promise((resolve, reject) => {
-    const child = utilityProcess.fork(
-      path.join(__dirname, "process/ordertroop/child.js")
-    );
-    child.on("spawn", () => {
-      console.log(child.pid);
+    console.log("task in main process", task);
+    const child = fork(path.join(__dirname, "child"));
+    child.send("start");
+    child.on("message", (message) => {
+      console.log("child on message", message);
     });
 
-    child.on("exit", () => {
-      console.log(child.pid);
+    child.on("exit", (code) => {
+      if (code === 0) {
+        resolve("success");
+      } else {
+        console.log("exit code", code);
+        reject("error from main process");
+      }
     });
   });
 };

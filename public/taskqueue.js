@@ -19,14 +19,19 @@ const taskqueue = async (db, tasks) => {
 };
 
 const runtask = async (db, task) => {
-  switch (task.type) {
-    case "ordertroop":
-      console.log("run ordertroop");
-      await ordertroop(task);
+  try {
+    switch (task.ptype) {
+      case "ordertroop":
+        console.log("run ordertroop");
+        await ordertroop(task);
 
-      break;
-    default:
-      break;
+        break;
+      default:
+        console.log("unknown ptype", task.ptype);
+        break;
+    }
+  } catch (err) {
+    console.log(err);
   }
 };
 module.exports = taskqueue;
