@@ -1,4 +1,4 @@
-const ordertroop = require("./process/ordertroop/main.js");
+const ordertroop = require("./process/ordertroop");
 
 const taskqueue = async (db, tasks) => {
   for (const task of tasks) {
@@ -12,18 +12,35 @@ const taskqueue = async (db, tasks) => {
       );
       // run task
       console.log(new Date(), "start run task", task.id);
-      await runtask(db, task);
+      await runtask(task);
       console.log(new Date(), "stop  run task", task.id);
     }
   }
 };
+// const getUserConfig = async (db) => {
+//   try {
+//     const userconfig = await db.get(`SELECT * FROM userconfig`);
+//     console.log("userconfig", userconfig);
+//     return;
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+// const prepareTask = async (db, task) => {
+//   try {
+//     const userconfig = await getUserConfig(db);
+//     // await runtask(task, userconfig);
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
-const runtask = async (db, task) => {
+const runtask = async (task, userconfig) => {
   try {
     switch (task.ptype) {
       case "ordertroop":
         console.log("run ordertroop");
-        await ordertroop(task);
+        await ordertroop(task, {});
 
         break;
       default:

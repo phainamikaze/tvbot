@@ -17,10 +17,10 @@ database.serialize(() => {
   database.run(`
     CREATE TABLE IF NOT EXISTS taskqueue (
       id VERCHAR(255) PRIMARY KEY,
-      min INTEGER NULL,
-      max INTEGER NULL,
-      interval INTEGER NULL,
-      lastrun INTEGER NULL,
+      min INTEGER NULL, -- milisec
+      max INTEGER NULL, -- milisec
+      interval INTEGER NULL, -- เริ่มต้ยเป็น 0
+      lastrun INTEGER NULL, -- เริ่มต้ยเป็น 0
       enabled INTEGER NOT NULL, -- 1 ใช้งาน 0 ไม่ใช้งาน
       sort INTEGER NOT NULL, -- เรียง
       ptype VERCHAR(255) NOT NULL, -- ordertroop, build1, build2
